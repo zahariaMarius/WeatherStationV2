@@ -151,21 +151,33 @@ function createBodyAccordion(headerAccordion, singleWeatherData) {
 	setTabElementsAttribute(tabsLink, 'data-tab', allTabsLink);
 	setTabElementsAttribute(tabsContent, 'id', allTabsContent);
 
-	//create slideshow
+	//populate slideshow
 	var slideshowContainer = bodyAccordion.find('.slideshow_container');
 	populateSlideshow(slideshowContainer, singleWeatherData);
 	applySlideshowAnimation(0, slideshowContainer, 5000);
 
 	//append bodyAccordion to parent accordion
 	bodyAccordion.appendTo(headerAccordion.parent('.accordion'));
-	//populateBodyAccordion(bodyAccordion, singleWeatherData);
 }
 
+/**
+ * [populateSlideshow function that populate the slideshow dom element]
+ * @param  {[type]} slideshowContainer [description]
+ * @param  {[type]} singleWeatherData  [description]
+ * @return {[type]}                    [description]
+ */
 function populateSlideshow(slideshowContainer, singleWeatherData) {
+	//get the elements to populate
 	var slidesContainer = slideshowContainer.children('.slide_container');
-	$(slidesContainer[0]).children().attr('src', getMeteoGrammerImage(singleWeatherData));
-	$(slidesContainer[1]).children().attr('src', getStationImage(singleWeatherData));
-	$(slidesContainer[2]).children().attr('src', getWebcamImage(singleWeatherData));
+	var slidesDescription = slideshowContainer.find('.slide_description');
+	//populate slide image with the image data
+	$(slidesContainer[0]).children('.slide_image').attr('src', getWebcamImage(singleWeatherData));
+	$(slidesContainer[1]).children('.slide_image').attr('src', getStationImage(singleWeatherData));
+	$(slidesContainer[2]).children('.slide_image').attr('src', getMeteoGrammerImage(singleWeatherData));
+	//populate slide description with the description data
+	$(slidesDescription[0]).html("numero 0");
+	$(slidesDescription[1]).html("numero 1");
+	$(slidesDescription[2]).html("numero 2");
 }
 
 /**

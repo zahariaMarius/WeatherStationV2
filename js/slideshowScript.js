@@ -9,27 +9,6 @@
  */
 
  /**
-  * [createSlideshow function that create the slideshow]
-  * @param  {[Object]} singleWeatherData [object that contain sigle weather data]
-  * @return {[type]}                   [return the slideshow element]
-  */
- function getSlideshow(singleWeatherData) {
- 	var slideshowContainer = $('<div></div>').addClass('slideshow-container');
- 	var meteoGrammerImage = getMeteoGrammerImage(singleWeatherData);
- 	var WebcamImage = getWebcamImage(singleWeatherData);
- 	var stationImage = getStationImage(singleWeatherData);
- 	var slideshowImages = [meteoGrammerImage, WebcamImage, stationImage];
- 	for (var item in slideshowImages) {
- 		if (slideshowImages.hasOwnProperty(item)) {
- 			var slideDiv = $('<div></div>').addClass('slide fade');
- 			slideDiv.append(slideshowImages[item].addClass('slideshowImage'));
- 			slideshowContainer.append(slideDiv);
- 		}
- 	}
- 	return slideshowContainer;
- }
-
- /**
   * [nextSlide function that clear the setTimeout and display the next o prev slide]
   * @param  {[Int]} increment [description]
   * @return {[type]}   [description]
