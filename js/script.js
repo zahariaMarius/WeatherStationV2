@@ -99,7 +99,8 @@ function populateHeaderAccordion(headerAccordion, singleWeatherData) {
 	headerAccordion.children('.station_name').html(getStationName(singleWeatherData));
 	headerAccordion.children('.weather_data').html(getWeatherData(singleWeatherData));
 	headerAccordion.children('.weather_icon').attr('src', getWeatherIcon(singleWeatherData));
-	headerAccordion.children('.weather_temperature').html(getWeatherTemperature(singleWeatherData));
+	var weatherTemperature = headerAccordion.children('.weather_temperature').html(getWeatherTemperature(singleWeatherData));
+	formatTemp(singleWeatherData.temperature, weatherTemperature);
 	addOnHeaderAccordionClickEventHandler(headerAccordion, singleWeatherData);
 }
 
@@ -112,9 +113,6 @@ function addOnHeaderAccordionClickEventHandler(headerAccordion, singleWeatherDat
 	headerAccordion.click(function(event) {
 		if (checkIfBodyAccordionNotExist($(this))) {
 			createBodyAccordion($(this), singleWeatherData);
-			// selectedItem[$(this).index('.headerAccordion')] = "bella";
-			// console.log("id di quello aperto: " + selectedItem);
-			// console.log(selectedItem);
 		}
 		applyBodyAccordionAnimation($(this));
 	});
@@ -152,12 +150,50 @@ function createBodyAccordion(headerAccordion, singleWeatherData) {
 	setTabElementsAttribute(tabsContent, 'id', allTabsContent);
 
 	//populate slideshow
-	var slideshowContainer = bodyAccordion.find('.slideshow_container');
-	populateSlideshow(slideshowContainer, singleWeatherData);
-	applySlideshowAnimation(0, slideshowContainer, 5000);
+	//var slideshowContainer = bodyAccordion.find('.slideshow_container');
+	populateBodyAccordion(bodyAccordion, singleWeatherData);
 
 	//append bodyAccordion to parent accordion
 	bodyAccordion.appendTo(headerAccordion.parent('.accordion'));
+}
+
+/**
+ * [populateBodyAccordion function that populate the body accordion]
+ * @param  {[type]} bodyAccordion     [description]
+ * @param  {[type]} singleWeatherData [description]
+ * @return {[type]}                   [description]
+ */
+function populateBodyAccordion(bodyAccordion, singleWeatherData) {
+	bodyAccordion.find('.station_locality').text(getStationLocality(singleWeatherData));
+	var stationLink = bodyAccordion.find('.station_view_map');
+	var slideshowContainer = bodyAccordion.find('.slideshow_container');
+	addOnStationMapsLinkEventHandler(stationLink, singleWeatherData);
+	populateSlideshow(slideshowContainer, singleWeatherData);
+}
+
+/**
+ * [addOnStationMapsLinkEventHandler function  that applied a event handlre and redirect on maps]
+ * @param {[type]} stationLink       [description]
+ * @param {[type]} singleWeatherData [description]
+ */
+function addOnStationMapsLinkEventHandler(stationLink, singleWeatherData) {
+	stationLink.click(function(event) {
+		window.open('https://www.google.it/maps/place/' + singleWeatherData.station.name + '/@'
+					+ singleWeatherData.station.lat + ',' + singleWeatherData.station.lng);
+	});
+}
+
+/**
+ * [getStationLocality function that return the specified station locality]
+ * @param  {[type]} singleWeatherData [description]
+ * @return {[type]}                   [description]
+ */
+function getStationLocality(singleWeatherData) {
+	var city = singleWeatherData.station.city;
+	var region = singleWeatherData.station.region.name;
+	var province = singleWeatherData.station.province.name;
+	var nation = singleWeatherData.station.nation.name;
+	return city + " " + region + " " + province + " " + nation;
 }
 
 /**
@@ -175,9 +211,10 @@ function populateSlideshow(slideshowContainer, singleWeatherData) {
 	$(slidesContainer[1]).children('.slide_image').attr('src', getStationImage(singleWeatherData));
 	$(slidesContainer[2]).children('.slide_image').attr('src', getMeteoGrammerImage(singleWeatherData));
 	//populate slide description with the description data
-	$(slidesDescription[0]).html("numero 0");
-	$(slidesDescription[1]).html("numero 1");
-	$(slidesDescription[2]).html("numero 2");
+	$(slidesDescription[0]).html(getStationClimate(singleWeatherData));
+	$(slidesDescription[1]).html(getSationDescription(singleWeatherData));
+	$(slidesDescription[2]).html(getMeteogrammerDescription(singleWeatherData));
+	applySlideshowAnimation(0, slideshowContainer, 5000);
 }
 
 /**
@@ -267,7 +304,7 @@ function getWeatherTemperature(singleWeatherData) {
 function getMeteoGrammerImage(singleWeatherData) {
 	var descriptionString = singleWeatherData.station.description;
 	var htmlElements = $.parseHTML(descriptionString);
-	var meteoGrammerImageURL;
+	var meteoGrammerImageURL = "";
 	$.each(htmlElements, function(i, el) {
 		var a = $(el).children();
 		if (a.hasClass('lightbox-image')) {
@@ -298,6 +335,44 @@ function getWebcamImage(singleWeatherData){
 	// }else{
 	// 	return $('<img onerror = "imageError(this)">').attr('src', singleWeatherData.station['webcam']);
 	// }
+}
+
+
+/**
+ * [getStationClimate function that return the climate of specified station]
+ * @param  {[type]} singleWeatherData [description]
+ * @return {[type]}                   [description]
+ */
+function getStationClimate(singleWeatherData) {
+	return singleWeatherData.station.climate;
+}
+
+/**
+ * [getMeteogrammerDescription function that return the specified station meteogrammer description]
+ * @param  {[type]} singleWeatherData [description]
+ * @return {[type]}                   [description]
+ */
+function getMeteogrammerDescription(singleWeatherData) {
+	var descriptionString = singleWeatherData.station.description;
+	var htmlElements = $.parseHTML(descriptionString);
+	var meteogrammerDescription = $(htmlElements).first();
+	if (!meteogrammerDescription.html().split("<br>")[1]) {
+		return "Descrizione non disponibile";
+	}else {
+		return meteogrammerDescription.html().split("<br>")[1];
+	}
+}
+
+/**
+ * [getSationDescriptionfunction that return the specified station description]
+ * @param  {[type]} singleWeatherData [description]
+ * @return {[type]}                   [description]
+ */
+function getSationDescription(singleWeatherData) {
+	var descriptionString = singleWeatherData.station.description;
+	var htmlElements = $.parseHTML(descriptionString);
+	var stationDescription = $(htmlElements).first();
+	return stationDescription.html().split("<br>")[0];
 }
 
 /**
@@ -334,6 +409,29 @@ function applyBodyAccordionAnimation(header) {
 		}else {
 			bodyAccordion[0].style.maxHeight = bodyAccordion[0].scrollHeight + "px";
 		}
+}
+
+/**
+ * [formatTemp function that add css class to temperature]
+ * @param  {[type]} weatherTemp [description]
+ * @param  {[type]} pTemp       [description]
+ * @return {[type]}             [description]
+ */
+function formatTemp(weatherTemp, pTemp){
+	var grade = parseInt(weatherTemp);
+	if (grade < -5){
+		pTemp.css('color', '#00004d');
+	}else if(grade >= -5 && grade <= 0){
+		pTemp.css('color', '#000099');
+	}else if(grade > 0 && grade <= 10 ){
+		pTemp.css('color', '#0000ff');
+	}else if (grade > 10 && grade <= 15 ){
+		pTemp.css('color', '#4d4dff');
+	}else if (grade > 15 && grade <= 20 ){
+		pTemp.css('color', '#ff9900');
+	}else if (grade > 20 ){
+		pTemp.css('color', '#ff6600');
+	}
 }
 
 

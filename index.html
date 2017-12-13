@@ -31,15 +31,16 @@
 		<div>
 			<h3 id="txt-country">Country</h3>
 				<select id="select-country">
-					<option value="">-</option>
-					<option value="france">France</option>
-					<option value="italy">Italy</option>
-					<option value="switzerland">Switzerland</option>
+					<option value="" id="-">-</option>
+					<option value="france" id="Francia">France</option>
+					<option value="italy" id="Italia">Italy</option>
+					<option value="switzerland" id="Svizzera">Switzerland</option>
 				</select>
 		</div>
 
 		<div id="divDate">
 			<p class="lastUpdate"> </p>
+			<button id="pause"> pause </button>
 		</div>
 	</div>
 
@@ -68,6 +69,10 @@
 				</ul>
 
 				<div class="tab_content current">
+
+					<p class="station_locality"></p>
+					<p class="station_view_map">View on Google Maps</p>
+
 					<div class="slideshow_container">
 						<div class="slide_container fade">
 							<img class="slide_image" src="" alt="">
@@ -102,9 +107,10 @@
 	<!-- accordion container contain all accordions - end -->
 
 	<!-- cuastomized script  -->
-	<script src="js/tabsScript.js" charset="utf-8"></script>
 	<script src="js/script.js" charset="utf-8"></script>
+	<script src="js/tabsScript.js" charset="utf-8"></script>
 	<script src="js/slideshowScript.js" charset="utf-8"></script>
+	<script src="js/filterScript.js" charset="utf-8"></script>
 	<!-- cuastomized script  -->
 </body>
 </html>
