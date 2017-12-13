@@ -7,6 +7,7 @@
 	<link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro" rel="stylesheet">
 	<link rel="stylesheet" type="text/css" href="css/reset.css">
 	<link rel="stylesheet" type="text/css" href="css/style.css">
+	<link rel="stylesheet" type="text/css" href="css/tabsStyle.css">
 	<!-- JQuery CDN -->
 	<script src="https://code.jquery.com/jquery-3.2.1.js" integrity="sha256-DZAnKJ/6XZ9si04Hgrsxu/8s717jcIzLy3oi35EouyE=" crossorigin="anonymous"></script>
 	<!-- JQuery CDN -->
@@ -20,13 +21,6 @@
 			<h1 id="title">Real Time Weather</h1>
 		</div>
 	</header>
-
-	<div id="loading">
-			<div id="loading-text">
-				Loading data, please wait.
-			</div>
-			<div id="loader"></div>
-		</div>
 
 	<div id="filter">
 		<div id="div-station-name">
@@ -48,14 +42,47 @@
 		</div>
 	</div>
 
+	<!-- accordion container contain all accordions - start -->
 	<div class="accordion_container">
-		<div class="accordion">
-			<div class="header_accordion"></div>
-			<div class="body_accordion"></div>
+
+		<!-- main accordion contain a header accordion and a body - start-->
+		<div class="main_accordion">
+
+			<!-- header accordion contain all main data to display for user - start-->
+			<div class="header_accordion">
+				<img class="nation_flag" src="" alt="">
+				<p class="station_name"></p>
+				<p class="weather_data"></p>
+				<img class="weather_icon" src="" alt="">
+				<p class="weather_temperature"></p>
+			</div>
+			<!-- header accordion contain all main data to display for user - end-->
+
+			<!-- body accordion contain all secondary data to display for user - start-->
+			<div class="body_accordion">
+
+				<ul class="tabs">
+					<li class="tab_link current">REALTIME WEATHER</li>
+					<li class="tab_link">HISTORICALL WEATHER</li>
+				</ul>
+
+				<div class="tab_content current">
+					<div class="slideshow_container"></div>
+				</div>
+
+				<div class="tab_content">
+					 at cupidatat non proident, sunt in culaborum.
+				</div>
+			</div>
+			<!-- body accordion contain all secondary data to display for user - end-->
+
 		</div>
+		<!-- main_accordion contain a header accordion and a body - end-->
 	</div>
+	<!-- accordion container contain all accordions - end -->
 
 	<!-- cuastomized script  -->
+	<script src="js/tabsScript.js" charset="utf-8"></script>
 	<script src="js/script.js" charset="utf-8"></script>
 	<script src="js/slideshowScript.js" charset="utf-8"></script>
 	<!-- cuastomized script  -->

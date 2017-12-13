@@ -73,14 +73,18 @@ body{
 	float: right;
 }
 
-.nationFlag {
+.main_accordion {
+    display: none;
+}
+
+.nation_flag {
 	width: 5%;
 }
 
 .accordion {
-	margin: 25px auto;
+    margin: 25px auto;
 	width: 90%;
-  box-shadow: 1px 1px 5px gray;
+    box-shadow: 1px 1px 5px gray;
 	transition: 1s;
 }
 
@@ -88,7 +92,7 @@ body{
 	box-shadow: 1px 1px 5px black;
 }
 
-.headerAccordion {
+.header_accordion {
     background-color: #f9fcff;
     color: #666;
     cursor: pointer;
@@ -101,21 +105,21 @@ body{
     transition: 2s;
 }
 
-.headerAccordion.active, .headerAccordion:hover {
+.header_accordion.active, .header_accordion:hover {
     background-color: #edf4f9;
 }
 
-.temperature{
+.weather_temperature{
 	float: right;
 }
 
-.weatherIcon{
-	float: right;
-  margin-top: -60px;
-  width: 45px;
+.weather_icon{
+    float: right;
+    margin-top: -60px;
+    width: 45px;
 }
 
-.bodyAccordion {
+.body_accordion {
     padding: 0 9px;
     background-color: white;
     max-height: 0;
