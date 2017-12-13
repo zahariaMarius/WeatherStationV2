@@ -46,7 +46,7 @@
   */
  function applySlideshowAnimation(increment, slideshowContainer, slideTime) {
  	var i;
- 	var slides = slideshowContainer.children('.slide');
+ 	var slides = slideshowContainer.children('.slide_container');
  	if (increment > slides.length) {slideIndex = 1}
  	if (increment < 1) {slideIndex = slides.length}
  	for (i = 0; i < slides.length; i++) {

@@ -153,7 +153,7 @@ function createBodyAccordion(headerAccordion, singleWeatherData) {
 
 	//create slideshow
 	var slideshowContainer = bodyAccordion.find('.slideshow_container');
-	createSlideshowElements(slideshowContainer, singleWeatherData);
+	populateSlideshow(slideshowContainer, singleWeatherData);
 	applySlideshowAnimation(0, slideshowContainer, 5000);
 
 	//append bodyAccordion to parent accordion
@@ -161,18 +161,11 @@ function createBodyAccordion(headerAccordion, singleWeatherData) {
 	//populateBodyAccordion(bodyAccordion, singleWeatherData);
 }
 
-function createSlideshowElements(slideshowContainer, singleWeatherData) {
-	var meteoGrammerImage = getMeteoGrammerImage(singleWeatherData);
-	var WebcamImage = getWebcamImage(singleWeatherData);
-	var stationImage = getStationImage(singleWeatherData);
-	var slideshowImages = [meteoGrammerImage, WebcamImage, stationImage];
-	for (var item in slideshowImages) {
-		if (slideshowImages.hasOwnProperty(item)) {
-			var slideDiv = $('<div></div>').addClass('slide fade');
-			slideDiv.append(slideshowImages[item].addClass('slideshowImage'));
-			slideshowContainer.append(slideDiv);
-		}
-	}
+function populateSlideshow(slideshowContainer, singleWeatherData) {
+	var slidesContainer = slideshowContainer.children('.slide_container');
+	$(slidesContainer[0]).children().attr('src', getMeteoGrammerImage(singleWeatherData));
+	$(slidesContainer[1]).children().attr('src', getStationImage(singleWeatherData));
+	$(slidesContainer[2]).children().attr('src', getWebcamImage(singleWeatherData));
 }
 
 /**
@@ -262,26 +255,23 @@ function getWeatherTemperature(singleWeatherData) {
 function getMeteoGrammerImage(singleWeatherData) {
 	var descriptionString = singleWeatherData.station.description;
 	var htmlElements = $.parseHTML(descriptionString);
-	var meteoGrammerImage = $('<img></img>');
+	var meteoGrammerImageURL;
 	$.each(htmlElements, function(i, el) {
 		var a = $(el).children();
-		console.log(a);
 		if (a.hasClass('lightbox-image')) {
-			console.log(a.attr('href'));
-			meteoGrammerImage.attr('src', a.attr('href'));
+			meteoGrammerImageURL = a.attr('href');
 		}
 	});
-	return meteoGrammerImage;
+	return meteoGrammerImageURL;
 }
 
 /**
- * [getStationImage function that return the img DOM element]
+ * [getStationImage function that return the imgae url]
  * @param  {[type]} singleWeatherData [object that contain sigle weather data]
  * @return {[type]}                   [description]
  */
 function getStationImage(singleWeatherData) {
-	var stationImage = $('<img></img>').attr('src', singleWeatherData.station.image_url);
-	return stationImage;
+	return singleWeatherData.station.image_url;
 }
 
 /**
@@ -290,11 +280,12 @@ function getStationImage(singleWeatherData) {
  * @return {[type]}                   [description]
  */
 function getWebcamImage(singleWeatherData){
-	if (singleWeatherData.station['webcam'] == ""){
-		return $('<img>').attr('src', 'media/no_flag_avaible.jpeg' );
-	}else{
-		return $('<img onerror = "imageError(this)">').attr('src', singleWeatherData.station['webcam']);
-	}
+	return singleWeatherData.station.webcam;
+	// if (singleWeatherData.station['webcam'] == ""){
+	// 	return $('<img>').attr('src', 'media/no_flag_avaible.jpeg' );
+	// }else{
+	// 	return $('<img onerror = "imageError(this)">').attr('src', singleWeatherData.station['webcam']);
+	// }
 }
 
 /**
