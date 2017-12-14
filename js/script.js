@@ -17,7 +17,6 @@ $('.refresh_time_message_error').hide();
 /**
  * [apply event handler on refreshButton to start or stop the setTimeout]
  * @param  {[type]} event [description]
- * @return {[type]}       [description]
  */
 $('#refresh_button').click(function(event) {
 	if ($(this).val() === "STOP REFRESH") {
@@ -41,7 +40,6 @@ $('#refresh_button').click(function(event) {
 /**
  * [checkIfRefreshTimeInputValueIsValid function that check if the refreshTimeInputValue is valid or not]
  * @param  {[Input]} refreshTimeInputValue [description]
- * @return {[type]}                       [description]
  */
 function checkIfRefreshTimeInputValueIsValid(refreshTimeInputValue) {
 	var flag = false;
@@ -54,7 +52,6 @@ function checkIfRefreshTimeInputValueIsValid(refreshTimeInputValue) {
 /**
  * [stratRefreshWeatherDataTimeOut function that start the setTimeout to refresh the page]
  * @param  {[type]} refreshTime [description]
- * @return {[type]}             [description]
  */
 function stratRefreshWeatherDataTimeOut(refreshTime) {
 	refreshWeatherDataTimeOut = setTimeout(getDataFromApi, refreshTime, 'https://www.torinometeo.org/api/v1/realtime/data/');
@@ -118,26 +115,26 @@ function updateJsonBlob(updatedData) {
 	});
 }
 
+/**
+ * [updateAccordionData function that upload all DOM data calling the populate functions]
+ * @param  {[Array]} weatherData [array containing all json objs]
+ */
 function updateAccordionData(weatherData) {
 	weatherData.forEach(function (el, index) {
 		var headerAccordion = $('.header_accordion')[index+1];
-		//var accordion = $('.accordion')[index];
-		//var bodyAccordion = $(accordion).find('.body_accordion');
 		populateHeaderAccordion($(headerAccordion), weatherData[index]);
 		if (checkIfBodyAccordionNotExist($(headerAccordion))) {
 			$(headerAccordion).unbind('click');
 			addOnHeaderAccordionClickEventHandler($(headerAccordion), weatherData[index]);
 		}else {
 			populateBodyAccordion($(headerAccordion).next('.body_accordion'), weatherData[index]);
-			console.log("sono nel body populate");
 		}
 	});
 }
 
 /**
  * [createAccordions function that create all accordion for how many weather detections returns]
- * @param  {[Array]} weatherData [all detections received]
- * @return {[type]}             [description]
+ * @param  {[Array]} weatherData [array containing all json objs]
  */
 function createAccordions(weatherData) {
 	for (var item in weatherData) {
@@ -148,9 +145,8 @@ function createAccordions(weatherData) {
 }
 
 /**
- * [createAccordion function that create the accordion div]
+ * [createAccordion function that clone the main accordion and calling the populate function]
  * @param  {[Object]} singleWeatherData [object that contain sigle weather data]
- * @return {[type]}                   [description]
  */
 function createAccordion(singleWeatherData) {
 	var accordion = $('.main_accordion').clone().attr('class', 'accordion').appendTo('.accordion_container');
@@ -161,9 +157,8 @@ function createAccordion(singleWeatherData) {
 
 /**
  * [populateHeaderAccordion function that populate header children with data from API]
- * @param  {[jQuery|HTMLElement]} headerAccordion [description]
- * @param  {[Object]} singleWeatherData [description]
- * @return {[type]}                   [description]
+ * @param  {[jQuery|HTMLElement]} headerAccordion [the specified created header of accordion]
+ * @param  {[Object]} singleWeatherData [object that contain sigle weather data]
  */
 function populateHeaderAccordion(headerAccordion, singleWeatherData) {
 	headerAccordion.children('.nation_flag').attr('src', getNationFlag(singleWeatherData));
@@ -175,9 +170,9 @@ function populateHeaderAccordion(headerAccordion, singleWeatherData) {
 }
 
 /**
- * [addOnHeaderAccordionClickEventHandler description]
- * @param {[type]} headerAccordion   [description]
- * @param {[type]} singleWeatherData [description]
+ * [addOnHeaderAccordionClickEventHandler function that apply an click event on header]
+ * @param {[jQuery|HTMLElement]} headerAccordion   [he specified created header of accordion]
+ * @param {[type]} singleWeatherData [object that contain sigle weather data]
  */
 function addOnHeaderAccordionClickEventHandler(headerAccordion, singleWeatherData) {
 	headerAccordion.click(function(event) {
@@ -190,8 +185,7 @@ function addOnHeaderAccordionClickEventHandler(headerAccordion, singleWeatherDat
 
 /**
 * [checkIfBodyAccordionExist function that check if the requested body already exist]
-* @param  {[type]} header [header element clicked]
-* @return {[type]}        [description]
+* @param  {[jQuery|HTMLElement]} header [header element clicked]
 */
 function checkIfBodyAccordionNotExist(header) {
 	var flag = false;
@@ -203,14 +197,12 @@ function checkIfBodyAccordionNotExist(header) {
 
 /**
  * [createBodyAccordion function that clone the body accordion ad appent it to clicked headerAccordion parent]
- * @param  {[type]} headerAccordion   [description]
- * @param  {[type]} singleWeatherData [description]
- * @return {[type]}                   [description]
+ * @param  {[jQuery|HTMLElement]} headerAccordion   [header element clicked]
+ * @param  {[type]} singleWeatherData [object that contain sigle weather data]
  */
 function createBodyAccordion(headerAccordion, singleWeatherData) {
 	//create body accordion
 	var bodyAccordion = $('.main_accordion').find('.body_accordion').clone(true);
-
 	//get all variables needed to set attributes on tabs elements
 	var tabsLink = bodyAccordion.find('.tabs').children('.tab_link');
 	var tabsContent = bodyAccordion.find('.tab_content');
@@ -218,26 +210,22 @@ function createBodyAccordion(headerAccordion, singleWeatherData) {
 	var allTabsContent = $('.tab_content').length;
 	setTabElementsAttribute(tabsLink, 'data-tab', allTabsLink);
 	setTabElementsAttribute(tabsContent, 'id', allTabsContent);
-
-	//populate slideshow
-	//var slideshowContainer = bodyAccordion.find('.slideshow_container');
+	//populate bodyAccordion
 	populateBodyAccordion(bodyAccordion, singleWeatherData);
-
 	//append bodyAccordion to parent accordion
 	bodyAccordion.appendTo(headerAccordion.parent('.accordion'));
 }
 
 /**
  * [populateBodyAccordion function that populate the body accordion]
- * @param  {[type]} bodyAccordion     [description]
- * @param  {[type]} singleWeatherData [description]
+ * @param  {[jQuery|HTMLElement]} bodyAccordion	[body accordion from header element clicked]
+ * @param  {[type]} singleWeatherData [object that contain sigle weather data]
  * @return {[type]}                   [description]
  */
 function populateBodyAccordion(bodyAccordion, singleWeatherData) {
 	bodyAccordion.find('.station_locality').text(getStationLocality(singleWeatherData));
 	var stationLink = bodyAccordion.find('.station_view_map');
 	var slideshowContainer = bodyAccordion.find('.slideshow_container');
-	console.log(slideshowContainer);
 	addOnStationMapsLinkEventHandler(stationLink, singleWeatherData);
 	populateSlideshow(slideshowContainer, singleWeatherData);
 }

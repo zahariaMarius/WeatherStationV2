@@ -29,11 +29,11 @@ $('.next_slide_button').click(function(event) {
  }
 
  /**
-  * [showSlides function that increme the slides and show it automatic]
-  * @param  {[Int]} increment [description]
+  * [showSlides function that increment the slides and show it]
+  * @param  {[Int]} increment [value of increment input]
   * @return {[type]}   [description]
   */
- function applySlideshowAnimation(increment, slideshowContainer, slideTime) {
+ function applySlideshowAnimation(increment, slideshowContainer) {
  	var i;
  	var slides = slideshowContainer.children('.slide_container');
  	if (increment > slides.length) {slideIndex = 1}
@@ -42,5 +42,4 @@ $('.next_slide_button').click(function(event) {
  		slides[i].style.display = "none";
  	}
  	slides[slideIndex-1].style.display = "block";
- 	//var timeout = setTimeout(function(){ nextSlide(1, slideshowContainer, timeout) }, slideTime);
  }
