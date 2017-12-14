@@ -219,8 +219,7 @@ function createBodyAccordion(headerAccordion, singleWeatherData) {
 /**
  * [populateBodyAccordion function that populate the body accordion]
  * @param  {[jQuery|HTMLElement]} bodyAccordion	[body accordion from header element clicked]
- * @param  {[type]} singleWeatherData [object that contain sigle weather data]
- * @return {[type]}                   [description]
+ * @param  {[Object]} singleWeatherData [object that contain sigle weather data]
  */
 function populateBodyAccordion(bodyAccordion, singleWeatherData) {
 	bodyAccordion.find('.station_locality').text(getStationLocality(singleWeatherData));
@@ -231,9 +230,9 @@ function populateBodyAccordion(bodyAccordion, singleWeatherData) {
 }
 
 /**
- * [addOnStationMapsLinkEventHandler function  that applied a event handlre and redirect on maps]
- * @param {[type]} stationLink       [description]
- * @param {[type]} singleWeatherData [description]
+ * [addOnStationMapsLinkEventHandler function that applied a event handle and redirect on maps]
+ * @param {[jQuery|HTMLElement]} stationLink	[HTMLElement to apply the event]
+ * @param {[Object]} singleWeatherData [object that contain sigle weather data]
  */
 function addOnStationMapsLinkEventHandler(stationLink, singleWeatherData) {
 	stationLink.click(function(event) {
@@ -244,8 +243,7 @@ function addOnStationMapsLinkEventHandler(stationLink, singleWeatherData) {
 
 /**
  * [getStationLocality function that return the specified station locality]
- * @param  {[type]} singleWeatherData [description]
- * @return {[type]}                   [description]
+ * @param  {[Object]} singleWeatherData [object that contain sigle weather data]
  */
 function getStationLocality(singleWeatherData) {
 	var city = singleWeatherData.station.city;
@@ -256,10 +254,9 @@ function getStationLocality(singleWeatherData) {
 }
 
 /**
- * [populateSlideshow function that populate the slideshow dom element]
- * @param  {[type]} slideshowContainer [description]
- * @param  {[type]} singleWeatherData  [description]
- * @return {[type]}                    [description]
+ * [populateSlideshow function that populate the slideshow dom element and aplly the animation]
+ * @param  {[jQuery|HTMLElement]} slideshowContainer [description]
+ * @param  {[object]} singleWeatherData  [object that contain sigle weather data]
  */
 function populateSlideshow(slideshowContainer, singleWeatherData) {
 	//get the elements to populate
@@ -277,10 +274,10 @@ function populateSlideshow(slideshowContainer, singleWeatherData) {
 }
 
 /**
- * [setTabElementsAttribute description]
- * @param {[type]} specifiedElement [description]
- * @param {[type]} attrType         [description]
- * @param {[type]} clonedElements   [description]
+ * [setTabElementsAttribute function that set forEach element the attributes]
+ * @param {[jQuery|HTMLElement]} specifiedElement [element to apply attributes to]
+ * @param {[String]} attrType	[attribute type]
+ * @param {[Int]} clonedElements	[number of elements cloned]
  */
 function setTabElementsAttribute(specifiedElement, attrType, clonedElements) {
 	specifiedElement.each(function(index, el) {
@@ -298,9 +295,9 @@ function setTabElementsAttribute(specifiedElement, attrType, clonedElements) {
 }
 
 /**
-* [getFlagImage function that return the image element containing image flag]
+* [getFlagImage function that return the URL of interested image]
 * @param  {[Object]} singleWeatherData [object that contain sigle weather data]
-* @return {[type]}                   [description]
+* @return {[src]}	[return the image src path]
 */
 function getNationFlag(singleWeatherData) {
 	switch (singleWeatherData.station.nation.name) {
@@ -317,14 +314,19 @@ function getNationFlag(singleWeatherData) {
 
 /**
  * [getStationName function that retunr the name of single station]
- * @param  {[Object]} singleWeatherData [description]
- * @return {[type]}                   [description]
+ * @param  {[Object]} singleWeatherData [object that contain sigle weather data]
+ * @return {[String]}                   [return the specified station name]
  */
 function getStationName(singleWeatherData) {
 	var stationName = checkIfNull(stationName, singleWeatherData.station.name);
 	return stationName;
 }
 
+/**
+ * [getWeatherData function that return the specified station weather data]
+ * @param  {[Object]} singleWeatherData [object that contain sigle weather data]
+ * @return {[String]}                   [String that contain all weather data]
+ */
 function getWeatherData(singleWeatherData) {
 	var temperatureMax = checkIfNull(temperatureMax, singleWeatherData.temperature_max);
 	var temperatureMin = checkIfNull(temperatureMin, singleWeatherData.temperature_min);
@@ -335,9 +337,9 @@ function getWeatherData(singleWeatherData) {
 }
 
 /**
- * [getWeatherIcon function that return the img element containing weather icon]
+ * [getWeatherIcon function that return the URL of station weather icon]
  * @param  {[Objec]} singleWeatherData [object that contain sigle weather data]
- * @return {[type]}                   [description]
+ * @return {[URL]}                   [URL of station weather icon]
  */
 function getWeatherIcon(singleWeatherData) {
 	if ((singleWeatherData.hasOwnProperty("weather_icon")) && (singleWeatherData.weather_icon != null)) {
@@ -347,8 +349,8 @@ function getWeatherIcon(singleWeatherData) {
 
 /**
  * [getWeatherTemperature function that return the single temperature value]
- * @param  {[Object]} singleWeatherData [description]
- * @return {[type]}                   [description]
+ * @param  {[Object]} singleWeatherData [object that contain sigle weather data]
+ * @return {[String]}                   [station weather temperature]
  */
 function getWeatherTemperature(singleWeatherData) {
 	var weatherTemperature = checkIfNull(weatherTemperature, singleWeatherData.temperature);
@@ -376,7 +378,7 @@ function getMeteoGrammerImage(singleWeatherData) {
 /**
  * [getStationImage function that return the imgae url]
  * @param  {[type]} singleWeatherData [object that contain sigle weather data]
- * @return {[type]}                   [description]
+ * @return {[URL]}                   [station URL image]
  */
 function getStationImage(singleWeatherData) {
 	return singleWeatherData.station.image_url;
@@ -384,23 +386,17 @@ function getStationImage(singleWeatherData) {
 
 /**
  * [getWebcamImage  function to get the webcam image]
- * @param  {[Object]} singleWeatherData [description]
- * @return {[type]}                   [description]
+ * @param  {[Object]} singleWeatherData [object that contain sigle weather data]
+ * @return {[URL]}                   [station URL webcam image]
  */
-function getWebcamImage(singleWeatherData){
+function getWebcamImage(singleWeatherData) {
 	return singleWeatherData.station.webcam;
-	// if (singleWeatherData.station['webcam'] == ""){
-	// 	return $('<img>').attr('src', 'media/no_flag_avaible.jpeg' );
-	// }else{
-	// 	return $('<img onerror = "imageError(this)">').attr('src', singleWeatherData.station['webcam']);
-	// }
 }
-
 
 /**
  * [getStationClimate function that return the climate of specified station]
- * @param  {[type]} singleWeatherData [description]
- * @return {[type]}                   [description]
+ * @param  {[type]} singleWeatherData [object that contain sigle weather data]
+ * @return {[String]}                   [station URL climate]
  */
 function getStationClimate(singleWeatherData) {
 	return singleWeatherData.station.climate;
@@ -408,8 +404,8 @@ function getStationClimate(singleWeatherData) {
 
 /**
  * [getMeteogrammerDescription function that return the specified station meteogrammer description]
- * @param  {[type]} singleWeatherData [description]
- * @return {[type]}                   [description]
+ * @param  {[Object]} singleWeatherData [object that contain sigle weather data]
+ * @return {[String]}                   [String of meteogrammer description]
  */
 function getMeteogrammerDescription(singleWeatherData) {
 	var descriptionString = singleWeatherData.station.description;
@@ -424,8 +420,8 @@ function getMeteogrammerDescription(singleWeatherData) {
 
 /**
  * [getSationDescriptionfunction that return the specified station description]
- * @param  {[type]} singleWeatherData [description]
- * @return {[type]}                   [description]
+ * @param  {[Object]} singleWeatherData [object that contain sigle weather data]
+ * @return {[String]}                   [string of station description]
  */
 function getSationDescription(singleWeatherData) {
 	var descriptionString = singleWeatherData.station.description;
@@ -448,6 +444,10 @@ function checkIfNull(variable, content){
 	}
 }
 
+/**
+ * [imageError da fare]
+ * @param  {[type]} img [description]
+ */
 function imageError(img) {
     img.onerror='';
     img.src='media/no_flag_avaible.jpeg';
@@ -456,8 +456,7 @@ function imageError(img) {
 
 /**
  * [applyBodyAccordionAnimation function that aplly the animation on body]
- * @param  {[type]} header [header element clicked]
- * @return {[type]}        [description]
+ * @param  {[jQuery|HTMLElement]} header [header element clicked]
  */
 function applyBodyAccordionAnimation(header) {
 	var bodyAccordion = header.next('.body_accordion');
@@ -474,7 +473,6 @@ function applyBodyAccordionAnimation(header) {
  * [formatTemp function that add css class to temperature]
  * @param  {[type]} weatherTemp [description]
  * @param  {[type]} pTemp       [description]
- * @return {[type]}             [description]
  */
 function formatTemp(weatherTemp, pTemp){
 	var grade = parseInt(weatherTemp);
@@ -495,7 +493,6 @@ function formatTemp(weatherTemp, pTemp){
 
 /**
  * [getLastUpdate function to print the last date of the page's refresh]
- * @return {[type]} [description]
  */
 function getLastUpdate(){
 	var formatDate = new Date();
