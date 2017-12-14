@@ -21,6 +21,15 @@ body{
   font-family: 'Source Sans Pro', sans-serif;
 }
 
+.refreshTimeInput_error {
+    border: 2px solid red;
+}
+
+.refresh_time_message_error {
+    color: red;
+    font-size: 10px;
+}
+
 
 #divHeader{
   color: #fff;

@@ -8,14 +8,24 @@
  * @Last modified time: 2017-12-08T18:03:48+01:00
  */
 
+
+$('.previous_slide_button').click(function(event) {
+    var slideshowContainer = $(this).parent('.slideshow_container');
+    nextSlide(-1, slideshowContainer);
+});
+
+$('.next_slide_button').click(function(event) {
+    var slideshowContainer = $(this).parent('.slideshow_container');
+    nextSlide(1, slideshowContainer);
+});
+
  /**
   * [nextSlide function that clear the setTimeout and display the next o prev slide]
   * @param  {[Int]} increment [description]
   * @return {[type]}   [description]
   */
- function nextSlide(increment, slideshowContainer, timeout) {
- 	clearTimeout(timeout);
- 	applySlideshowAnimation(slideIndex += increment, slideshowContainer, 5000);
+ function nextSlide(increment, slideshowContainer) {
+ 	applySlideshowAnimation(slideIndex += increment, slideshowContainer);
  }
 
  /**
@@ -32,5 +42,5 @@
  		slides[i].style.display = "none";
  	}
  	slides[slideIndex-1].style.display = "block";
- 	var timeout = setTimeout(function(){ nextSlide(1, slideshowContainer, timeout) }, slideTime);
+ 	//var timeout = setTimeout(function(){ nextSlide(1, slideshowContainer, timeout) }, slideTime);
  }

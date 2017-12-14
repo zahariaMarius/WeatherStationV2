@@ -38,9 +38,12 @@
 				</select>
 		</div>
 
+		<input type="number" id="refresh_time" placeholder="Tempo di refresh (secondi)" value="30" disabled>
+		<span class="refresh_time_message_error">Inserire un tempo maggiore di 14s</span>
+		<input type="button" name="refresh_button" id="refresh_button" value="STOP REFRESH">
+
 		<div id="divDate">
 			<p class="lastUpdate"> </p>
-			<button id="pause"> pause </button>
 		</div>
 	</div>
 
@@ -55,6 +58,7 @@
 				<img class="nation_flag" src="" alt="">
 				<p class="station_name"></p>
 				<p class="weather_data"></p>
+
 				<img class="weather_icon" src="" alt="">
 				<p class="weather_temperature"></p>
 			</div>
@@ -92,7 +96,11 @@
 								<p class="slide_description"></p>
 							</div>
 						</div>
+
+						<a class="previous_slide_button">&#10094;</a>
+						<a class="next_slide_button">&#10095;</a>
 					</div>
+
 				</div>
 
 				<div class="tab_content">

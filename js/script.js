@@ -8,8 +8,57 @@
  * @Last modified time: 2017-12-08T18:04:01+01:00
  */
 
-function refreshPage(refreshTime) {
-	var refreshData = setTimeout(getDataFromApi, refreshTime, 'https://www.torinometeo.org/api/v1/realtime/data/');
+
+var firstDomCreation = true;
+var refreshWeatherDataTimeOut;
+var refreshTimeInput = $('#refresh_time');
+$('.refresh_time_message_error').hide();
+
+/**
+ * [apply event handler on refreshButton to start or stop the setTimeout]
+ * @param  {[type]} event [description]
+ * @return {[type]}       [description]
+ */
+$('#refresh_button').click(function(event) {
+	if ($(this).val() === "STOP REFRESH") {
+		clearTimeout(refreshWeatherDataTimeOut);
+		$(this).val("START REFRESH");
+		refreshTimeInput.prop('disabled', false);
+	}else {
+		if (checkIfRefreshTimeInputValueIsValid(refreshTimeInput.val())) {
+			stratRefreshWeatherDataTimeOut(refreshTimeInput.val() * 1000);
+			$(this).val("STOP REFRESH");
+			refreshTimeInput.prop('disabled', true);
+			refreshTimeInput.removeClass('refreshTimeInput_error');
+			$('.refresh_time_message_error').hide();
+		}else {
+			refreshTimeInput.addClass('refreshTimeInput_error');
+			$('.refresh_time_message_error').show();
+		}
+	}
+});
+
+/**
+ * [checkIfRefreshTimeInputValueIsValid function that check if the refreshTimeInputValue is valid or not]
+ * @param  {[Input]} refreshTimeInputValue [description]
+ * @return {[type]}                       [description]
+ */
+function checkIfRefreshTimeInputValueIsValid(refreshTimeInputValue) {
+	var flag = false;
+	if (parseInt(refreshTimeInputValue) >= 15) {
+		flag = true;
+	}
+	return flag;
+}
+
+/**
+ * [stratRefreshWeatherDataTimeOut function that start the setTimeout to refresh the page]
+ * @param  {[type]} refreshTime [description]
+ * @return {[type]}             [description]
+ */
+function stratRefreshWeatherDataTimeOut(refreshTime) {
+	refreshWeatherDataTimeOut = setTimeout(getDataFromApi, refreshTime, 'https://www.torinometeo.org/api/v1/realtime/data/');
+	firstDomCreation = false;
 }
 
 /**
@@ -25,9 +74,14 @@ function getDataFromApi(myUrl) {
 	.done(function(weatherData) {
 		console.log("success");
 		console.log(weatherData);
+		if (firstDomCreation) {
+			createAccordions(weatherData);
+		}else {
+			updateAccordionData(weatherData);
+		}
+		getLastUpdate();
 		updateJsonBlob(weatherData);
-		createAccordions(weatherData);
-		//refreshPage(10000);
+		stratRefreshWeatherDataTimeOut(refreshTimeInput.val() * 1000);
 	})
 	.fail(function(error) {
 		console.log(error);
@@ -64,6 +118,22 @@ function updateJsonBlob(updatedData) {
 	});
 }
 
+function updateAccordionData(weatherData) {
+	weatherData.forEach(function (el, index) {
+		var headerAccordion = $('.header_accordion')[index+1];
+		//var accordion = $('.accordion')[index];
+		//var bodyAccordion = $(accordion).find('.body_accordion');
+		populateHeaderAccordion($(headerAccordion), weatherData[index]);
+		if (checkIfBodyAccordionNotExist($(headerAccordion))) {
+			$(headerAccordion).unbind('click');
+			addOnHeaderAccordionClickEventHandler($(headerAccordion), weatherData[index]);
+		}else {
+			populateBodyAccordion($(headerAccordion).next('.body_accordion'), weatherData[index]);
+			console.log("sono nel body populate");
+		}
+	});
+}
+
 /**
  * [createAccordions function that create all accordion for how many weather detections returns]
  * @param  {[Array]} weatherData [all detections received]
@@ -86,6 +156,7 @@ function createAccordion(singleWeatherData) {
 	var accordion = $('.main_accordion').clone().attr('class', 'accordion').appendTo('.accordion_container');
 	accordion.find('.body_accordion').remove();
 	populateHeaderAccordion(accordion.children('.header_accordion'), singleWeatherData);
+	addOnHeaderAccordionClickEventHandler(accordion.children('.header_accordion'), singleWeatherData);
 }
 
 /**
@@ -101,7 +172,6 @@ function populateHeaderAccordion(headerAccordion, singleWeatherData) {
 	headerAccordion.children('.weather_icon').attr('src', getWeatherIcon(singleWeatherData));
 	var weatherTemperature = headerAccordion.children('.weather_temperature').html(getWeatherTemperature(singleWeatherData));
 	formatTemp(singleWeatherData.temperature, weatherTemperature);
-	addOnHeaderAccordionClickEventHandler(headerAccordion, singleWeatherData);
 }
 
 /**
@@ -167,6 +237,7 @@ function populateBodyAccordion(bodyAccordion, singleWeatherData) {
 	bodyAccordion.find('.station_locality').text(getStationLocality(singleWeatherData));
 	var stationLink = bodyAccordion.find('.station_view_map');
 	var slideshowContainer = bodyAccordion.find('.slideshow_container');
+	console.log(slideshowContainer);
 	addOnStationMapsLinkEventHandler(stationLink, singleWeatherData);
 	populateSlideshow(slideshowContainer, singleWeatherData);
 }
@@ -434,7 +505,17 @@ function formatTemp(weatherTemp, pTemp){
 	}
 }
 
-
+/**
+ * [getLastUpdate function to print the last date of the page's refresh]
+ * @return {[type]} [description]
+ */
+function getLastUpdate(){
+	var formatDate = new Date();
+	var date = $('p.lastUpdate')
+	date.html(formatDate.toLocaleString());
+	var divDate = $('div#divDate');
+	divDate.append(date);
+}
 
 
 //call the function that get the weather data

@@ -4,6 +4,7 @@
 	width: 60%;
 	height: 350px;
 	margin: 0 auto;
+	position: relative;
 }
 
 .slide_container {
@@ -61,7 +62,33 @@
 
 /* On smaller screens, decrease text size */
 @media only screen and (max-width: 300px) {
-	.prev, .next,.text {font-size: 11px}
+	.previous_slide_button, .next_slide_button {font-size: 11px}
+}
+
+/* Next & previous buttons */
+.previous_slide_button, .next_slide_button {
+  cursor: pointer;
+  position: absolute;
+  top: 50%;
+  width: auto;
+  padding: 16px;
+  margin-top: -22px;
+  color: white;
+  font-weight: bold;
+  font-size: 18px;
+  transition: 0.6s ease;
+  border-radius: 0 3px 3px 0;
+}
+
+/* Position the "next button" to the right */
+.next_slide_button {
+  right: 0;
+  border-radius: 3px 0 0 3px;
+}
+
+/* On hover, add a black background color with a little bit see-through */
+.previous_slide_button:hover, .next_slide_button:hover {
+  background-color: rgba(0,0,0,0.8);
 }
 
 /* SLIDESHOW - END*/
