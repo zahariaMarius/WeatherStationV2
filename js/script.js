@@ -19,14 +19,14 @@ $('.refresh_time_message_error').hide();
  * @param  {[type]} event [description]
  */
 $('#refresh_button').click(function(event) {
-	if ($(this).val() === "STOP REFRESH") {
+	if ($(this).val() === "Ferma refresh") {
 		clearTimeout(refreshWeatherDataTimeOut);
-		$(this).val("START REFRESH");
+		$(this).val("Inizia refresh");
 		refreshTimeInput.prop('disabled', false);
 	}else {
 		if (checkIfRefreshTimeInputValueIsValid(refreshTimeInput.val())) {
 			stratRefreshWeatherDataTimeOut(refreshTimeInput.val() * 1000);
-			$(this).val("STOP REFRESH");
+			$(this).val("Ferma refresh");
 			refreshTimeInput.prop('disabled', true);
 			refreshTimeInput.removeClass('refreshTimeInput_error');
 			$('.refresh_time_message_error').hide();
@@ -76,8 +76,11 @@ function getDataFromApi(myUrl) {
 		}else {
 			updateAccordionData(weatherData);
 		}
+		$('#loading').fadeOut();
 		getLastUpdate();
-		updateJsonBlob(weatherData);
+		if (myUrl == 'https://www.torinometeo.org/api/v1/realtime/data/') {
+			updateJsonBlob(weatherData);
+		}
 		stratRefreshWeatherDataTimeOut(refreshTimeInput.val() * 1000);
 	})
 	.fail(function(error) {
@@ -86,6 +89,10 @@ function getDataFromApi(myUrl) {
 		console.log(error.statusText);
 		if (myUrl == 'https://www.torinometeo.org/api/v1/realtime/data/') {
 			getDataFromApi('https://jsonblob.com/api/jsonBlob/8f73f269-d924-11e7-a24a-991ece7b105b');
+		} else {
+			$('#loading').fadeIn();
+			$('#loading-text').html('Errore nella richiesta dei dati.');
+			$('#loader').hide();
 		}
 	})
 	.always(function() {
@@ -126,7 +133,7 @@ function updateAccordionData(weatherData) {
 		if (checkIfBodyAccordionNotExist($(headerAccordion))) {
 			$(headerAccordion).unbind('click');
 			addOnHeaderAccordionClickEventHandler($(headerAccordion), weatherData[index]);
-		}else {
+		} else {
 			populateBodyAccordion($(headerAccordion).next('.body_accordion'), weatherData[index]);
 		}
 	});
@@ -222,11 +229,20 @@ function createBodyAccordion(headerAccordion, singleWeatherData) {
  * @param  {[Object]} singleWeatherData [object that contain sigle weather data]
  */
 function populateBodyAccordion(bodyAccordion, singleWeatherData) {
-	bodyAccordion.find('.station_locality').text(getStationLocality(singleWeatherData));
+	bodyAccordion.find('.station_locality').text(getStationLocality(singleWeatherData)).attr('id', getStationId(singleWeatherData));
 	var stationLink = bodyAccordion.find('.station_view_map');
 	var slideshowContainer = bodyAccordion.find('.slideshow_container');
 	addOnStationMapsLinkEventHandler(stationLink, singleWeatherData);
 	populateSlideshow(slideshowContainer, singleWeatherData);
+}
+
+/**
+ * [getStationId function that return the station id]
+ * @param  {[Object]} singleWeatherData [[object that contain sigle weather data]]
+ * @return {[Int]}                   [station id]
+ */
+function getStationId(singleWeatherData) {
+	return singleWeatherData.station.id;
 }
 
 /**

@@ -22,25 +22,33 @@
 			<h1 id="title">Real Time Weather</h1>
 		</div>
 	</header>
+	<div id="loading">
+			<div id="loading-text">
+				Caricamento dei dati.
+			</div>
+			<div id="loader"></div>
+		</div>
 
 	<div id="filter">
 		<div id="div-station-name">
-			<h3 id="txt-station-name">Station name</h3>
+			<h3 id="txt-station-name">Nome stazione</h3>
 			<input type="text" name="station-name" id="input-station-name">
 		</div>
 		<div>
-			<h3 id="txt-country">Country</h3>
+			<h3 id="txt-country">Stato</h3>
 				<select id="select-country">
 					<option value="" id="-">-</option>
-					<option value="france" id="Francia">France</option>
-					<option value="italy" id="Italia">Italy</option>
-					<option value="switzerland" id="Svizzera">Switzerland</option>
+					<option value="france" id="Francia">Francia</option>
+					<option value="italy" id="Italia">Italia</option>
+					<option value="switzerland" id="Svizzera">Svizzera</option>
 				</select>
+
+				<input type="number" id="refresh_time" placeholder="Tempo di refresh (secondi)" value="30" disabled>
+				<input type="button" name="refresh_button" id="refresh_button" value="Ferma refresh">
+				<span class="refresh_time_message_error">Inserire un tempo maggiore di 14s</span>
 		</div>
 
-		<input type="number" id="refresh_time" placeholder="Tempo di refresh (secondi)" value="30" disabled>
-		<span class="refresh_time_message_error">Inserire un tempo maggiore di 14s</span>
-		<input type="button" name="refresh_button" id="refresh_button" value="STOP REFRESH">
+
 
 		<div id="divDate">
 			<p class="lastUpdate"> </p>
@@ -68,14 +76,14 @@
 			<div class="body_accordion">
 
 				<ul class="tabs">
-					<li class="tab_link current">REALTIME WEATHER</li>
-					<li class="tab_link">HISTORICALL WEATHER</li>
+					<li class="tab_link current">Meteo in tempo reale</li>
+					<li class="tab_link">Storico dati</li>
 				</ul>
 
 				<div class="tab_content current">
 
 					<p class="station_locality"></p>
-					<p class="station_view_map">View on Google Maps</p>
+					<p class="station_view_map">Vedi su google maps.</p>
 
 					<div class="slideshow_container">
 						<div class="slide_container fade">
@@ -104,7 +112,38 @@
 				</div>
 
 				<div class="tab_content">
-					 at cupidatat non proident, sunt in culaborum.
+					<input type="date" class="historical_weather_input" placeholder="gg/mm/aaaa" min="2011-01-01">
+					<input type="button" name="find_historical_button" id="find_historical_button" value="Trova">
+
+					<p class="station_locality"></p>
+					<p class="station_view_map">Vedi su google maps.</p>
+
+					<p class="weather_data"></p>
+
+					<div class="slideshow_container">
+						<div class="slide_container fade">
+							<img class="slide_image" src="" alt="">
+							<div class="overlay_description">
+								<p class="slide_description"></p>
+							</div>
+						</div>
+						<div class="slide_container fade">
+							<img class="slide_image" src="" alt="">
+							<div class="overlay_description">
+								<p class="slide_description"></p>
+							</div>
+						</div>
+						<div class="slide_container fade">
+							<img class="slide_image" src="" alt="">
+							<div class="overlay_description">
+								<p class="slide_description"></p>
+							</div>
+						</div>
+
+						<a class="previous_slide_button">&#10094;</a>
+						<a class="next_slide_button">&#10095;</a>
+					</div>
+
 				</div>
 			</div>
 			<!-- body accordion contain all secondary data to display for user - end-->
@@ -119,6 +158,7 @@
 	<script src="js/tabsScript.js" charset="utf-8"></script>
 	<script src="js/slideshowScript.js" charset="utf-8"></script>
 	<script src="js/filterScript.js" charset="utf-8"></script>
+	<script src="js/historicalScript.js" charset="utf-8"></script>
 	<!-- cuastomized script  -->
 </body>
 </html>

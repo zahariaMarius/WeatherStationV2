@@ -11,27 +11,42 @@
 
 
 * {
-    -moz-box-sizing: border-box;
-    -webkit-box-sizing: border-box;
-    box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
 }
-body{
+body {
 	width: 100%;
 	margin: 0 auto;
   font-family: 'Source Sans Pro', sans-serif;
 }
 
 .refreshTimeInput_error {
-    border: 2px solid red;
+  border: 2px solid red;
+}
+
+#refresh_time {
+  margin-left: 15%;
 }
 
 .refresh_time_message_error {
-    color: red;
-    font-size: 10px;
+  color: red;
+  font-size: 10px;
 }
 
+#refresh_button {
+  padding: 3px;
+  background-color: #f9fcff;
+  color: #666;
+  transition: 0.5s;
+}
 
-#divHeader{
+#refresh_button:hover{
+  background-color: #001f4d;
+  color: white;
+}
+
+#divHeader {
   color: #fff;
 	background-color: #001f4d;
 	height: 100px;
@@ -39,14 +54,14 @@ body{
 	box-shadow: 0 5px 2px -2px gray;
 }
 
-#title{
+#title {
 	font-size: 60px;
 	text-align: center;
 	padding-top: 10px;
 	padding-bottom: 10px;
 }
 
-#filter{
+#filter {
 	margin-top: 30px;
 	padding-top: 10px;
 	margin-left: 5%;
@@ -58,32 +73,32 @@ body{
 }
 
 
-#div-station-name{
+#div-station-name {
 	float: left;
 	margin-left: 15px;
 	margin-right: 20px;
 }
 
-#input-station-name{
+#input-station-name {
 	margin-top: 5px;
 	width: 120px;
 	height: 20px;
 }
 
-#select-country{
+#select-country {
 	margin-top: 5px;
 	width: 120px;
 	height: 20px;
 }
 
-#divDate{
+#divDate {
 	margin-right: 100px;
 	margin-top: -20px;
 	float: right;
 }
 
 .main_accordion {
-    display: none;
+  display: none;
 }
 
 .nation_flag {
@@ -91,49 +106,53 @@ body{
 }
 
 .accordion {
-    margin: 25px auto;
-	width: 90%;
-    box-shadow: 1px 1px 5px gray;
-	transition: 1s;
+  margin: 25px auto;
+  width: 90%;
+  box-shadow: 0px 0px 6px gray;
+  transition: 1s;
 }
 
 .accordion:hover {
-	box-shadow: 1px 1px 5px black;
+	box-shadow: 0px 0px 8px black;
 }
 
 .header_accordion {
-    background-color: #f9fcff;
-    color: #666;
-    cursor: pointer;
-    padding: 9px;
-    width: 100%;
-    border: none;
-    text-align: left;
-    outline: none;
-    font-size: 15px;
-    transition: 2s;
+  background-color: #f9fcff;
+  color: #666;
+  cursor: pointer;
+  padding: 9px;
+  width: 100%;
+  border: none;
+  text-align: left;
+  outline: none;
+  font-size: 15px;
+  transition: 2s;
 }
 
 .header_accordion.active, .header_accordion:hover {
-    background-color: #edf4f9;
+  background-color: #edf4f9;
 }
 
-.weather_temperature{
+.weather_temperature {
 	float: right;
 }
 
-.weather_icon{
-    float: right;
-    margin-top: -60px;
-    width: 45px;
+.weather_data {
+  display: inline;
+}
+
+.weather_icon {
+  float: right;
+  margin-top: -60px;
+  width: 45px;
 }
 
 .body_accordion {
-    padding: 0 9px;
-    background-color: white;
-    max-height: 0;
-    overflow: hidden;
-    transition: max-height 2s ease-out;
+  padding: 0 9px;
+  background-color: white;
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 2s ease-out;
 }
 
 #loading {
@@ -149,6 +168,8 @@ body{
   top: auto;
 	color: white;
 	font-size: 20px;
+  text-align: center;
+  margin-bottom: 10px;
 }
 
 #loader {
@@ -159,4 +180,9 @@ body{
   height: 60px;
   animation: spin 2s linear infinite;
   margin:  auto;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
 }
