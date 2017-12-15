@@ -23,13 +23,16 @@ function getHistoryDataFromApi(myUrl, tabContent) {
 	});
 }
 
-$('.historical_weather_input');
+$('.historical_weather_input').attr('max', getMaxPickerDate());
 
-getMaxPickerDate();
-
+/**
+ * [getMaxPickerDate function that return the yesterday formated date]
+ * @return {[String]} [yesterday date]
+ */
 function getMaxPickerDate() {
 	var todayDate = new Date().toLocaleDateString();
-	formatDateForPickerDate(todayDate);
+	var formatedDate = formatDateForPickerDate(todayDate);
+	return formatedDate;
 }
 
 /**
@@ -47,8 +50,9 @@ function formatDateForApiUrl(date) {
  * @return {[String]}      [date formatted]
  */
 function formatDateForPickerDate(date) {
-	var arr = date.split('/');
-	console.log(arr);
+	var splitedDate = date.split('/');
+	var formatedDate = splitedDate[2] + "-" + splitedDate[1] + "-" + (splitedDate[0] - 1);
+	return formatedDate;
 }
 
 /**
