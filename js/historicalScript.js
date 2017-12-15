@@ -23,14 +23,13 @@ function getHistoryDataFromApi(myUrl, tabContent) {
 	});
 }
 
-$('.historical_weather_input').attr('max', "1979-12-31");
+$('.historical_weather_input');
 
 getMaxPickerDate();
 
 function getMaxPickerDate() {
 	var todayDate = new Date().toLocaleDateString();
-	var a=  formatDateForPickerDate(todayDate);
-	console.log(a);
+	formatDateForPickerDate(todayDate);
 }
 
 /**
@@ -48,7 +47,8 @@ function formatDateForApiUrl(date) {
  * @return {[String]}      [date formatted]
  */
 function formatDateForPickerDate(date) {
-    return date.replace(/\//g, "-");
+	var arr = date.split('/');
+	console.log(arr);
 }
 
 /**
