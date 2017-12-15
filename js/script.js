@@ -81,7 +81,7 @@ function getDataFromApi(myUrl, source) {
 		if (myUrl == 'https://www.torinometeo.org/api/v1/realtime/data/') {
 			updateJsonBlob(weatherData);
 		}
-		//statRefreshWeatherDataTimeOut(refreshTimeInput.val() * 1000);
+		statRefreshWeatherDataTimeOut(refreshTimeInput.val() * 1000);
 	})
 	.fail(function(error) {
 		console.log(error);
