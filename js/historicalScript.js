@@ -45,7 +45,7 @@ function formatDateForApiUrl(date) {
 }
 
 /**
- * [formatDateForApiUrl function that format the date for api url]
+ * [formatDateForPickerDate function that format the date for api url]
  * @param  {[String]} date [date to be formatted]
  * @return {[String]}      [date formatted]
  */
@@ -71,7 +71,6 @@ $('#find_historical_button').click(function(event) {
  * [getRequestHistoricalStation function that filter the all station and retrive the speci one]
  * @param  {[Array]} weatherData [all weather data form API]
  * @param  {[jQuery|HTMLElement]} tabContent  [tab where the station data was required]
- * @return {[type]}             [description]
  */
 function getRequestHistoricalStation(weatherData, tabContent) {
     var stationId = tabContent.find('.station_locality').attr('id');
@@ -88,7 +87,6 @@ function getRequestHistoricalStation(weatherData, tabContent) {
  * [populateHistoricalBody function that populate with station data the historical body]
  * @param  {[jQuery|HTMLElement]} tabContent [tab where the station data was required]
  * @param  {[Object]} station    [required stationn data]
- * @return {[type]}            [description]
  */
 function populateHistoricalBody(tabContent, station) {
     tabContent.find('.weather_data').text(getHistoricalWeatherData(station));
