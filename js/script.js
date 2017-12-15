@@ -54,7 +54,7 @@ function checkIfRefreshTimeInputValueIsValid(refreshTimeInputValue) {
  * @param  {[type]} refreshTime [description]
  */
 function statRefreshWeatherDataTimeOut(refreshTime) {
-	refreshWeatherDataTimeOut = setTimeout(getDataFromApi, refreshTime, 'https://www.torinometeo.org/api/v1/realtime/data/');
+	refreshWeatherDataTimeOut = setTimeout(function(){getDataFromApi('https://www.torinometeo.org/api/v1/realtime/data/', "torinometeo")}, refreshTime);
 	firstDomCreation = false;
 }
 
