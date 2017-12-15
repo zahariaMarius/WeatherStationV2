@@ -8,7 +8,6 @@
  * @Last modified time: 2017-12-08T18:03:48+01:00
  */
 
-
 $('.previous_slide_button').click(function(event) {
     var slideshowContainer = $(this).parent('.slideshow_container');
     nextSlide(-1, slideshowContainer);
@@ -16,6 +15,16 @@ $('.previous_slide_button').click(function(event) {
 
 $('.next_slide_button').click(function(event) {
     var slideshowContainer = $(this).parent('.slideshow_container');
+    nextSlide(1, slideshowContainer);
+});
+
+$('.previous_slide_button_historical').click(function(event) {
+    var slideshowContainer = $(this).parent('.slideshow_container_historical');
+    nextSlide(-1, slideshowContainer);
+});
+
+$('.next_slide_button_historical').click(function(event) {
+    var slideshowContainer = $(this).parent('.slideshow_container_historical');
     nextSlide(1, slideshowContainer);
 });
 

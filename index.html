@@ -45,7 +45,7 @@
 
 				<input type="number" id="refresh_time" placeholder="Tempo di refresh (secondi)" value="30" disabled>
 				<input type="button" name="refresh_button" id="refresh_button" value="Ferma refresh">
-				<span class="refresh_time_message_error">Inserire un tempo maggiore di 14s</span>
+				<span class="refresh_time_message_error">Tempo minimo 15sec</span>
 		</div>
 
 
@@ -116,11 +116,10 @@
 					<input type="button" name="find_historical_button" id="find_historical_button" value="Trova">
 
 					<p class="station_locality"></p>
-					<p class="station_view_map">Vedi su google maps.</p>
 
 					<p class="weather_data"></p>
 
-					<div class="slideshow_container">
+					<div class="slideshow_container_historical">
 						<div class="slide_container fade">
 							<img class="slide_image" src="" alt="">
 							<div class="overlay_description">
@@ -140,10 +139,9 @@
 							</div>
 						</div>
 
-						<a class="previous_slide_button">&#10094;</a>
-						<a class="next_slide_button">&#10095;</a>
+						<a class="previous_slide_button_historical">&#10094;</a>
+						<a class="next_slide_button_historical">&#10095;</a>
 					</div>
-
 				</div>
 			</div>
 			<!-- body accordion contain all secondary data to display for user - end-->

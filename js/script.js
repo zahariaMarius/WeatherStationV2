@@ -25,7 +25,7 @@ $('#refresh_button').click(function(event) {
 		refreshTimeInput.prop('disabled', false);
 	}else {
 		if (checkIfRefreshTimeInputValueIsValid(refreshTimeInput.val())) {
-			stratRefreshWeatherDataTimeOut(refreshTimeInput.val() * 1000);
+			statRefreshWeatherDataTimeOut(refreshTimeInput.val() * 1000);
 			$(this).val("Ferma refresh");
 			refreshTimeInput.prop('disabled', true);
 			refreshTimeInput.removeClass('refreshTimeInput_error');
@@ -50,10 +50,10 @@ function checkIfRefreshTimeInputValueIsValid(refreshTimeInputValue) {
 }
 
 /**
- * [stratRefreshWeatherDataTimeOut function that start the setTimeout to refresh the page]
+ * [statRefreshWeatherDataTimeOut function that start the setTimeout to refresh the page]
  * @param  {[type]} refreshTime [description]
  */
-function stratRefreshWeatherDataTimeOut(refreshTime) {
+function statRefreshWeatherDataTimeOut(refreshTime) {
 	refreshWeatherDataTimeOut = setTimeout(getDataFromApi, refreshTime, 'https://www.torinometeo.org/api/v1/realtime/data/');
 	firstDomCreation = false;
 }
@@ -62,7 +62,7 @@ function stratRefreshWeatherDataTimeOut(refreshTime) {
  * [getApiData get all json weather data from API]
  * @return {[type]} [description]
  */
-function getDataFromApi(myUrl) {
+function getDataFromApi(myUrl, source) {
 	$.ajax({
 		url: myUrl,
 		type: 'GET',
@@ -77,18 +77,18 @@ function getDataFromApi(myUrl) {
 			updateAccordionData(weatherData);
 		}
 		$('#loading').fadeOut();
-		getLastUpdate();
+		getLastUpdate(source);
 		if (myUrl == 'https://www.torinometeo.org/api/v1/realtime/data/') {
 			updateJsonBlob(weatherData);
 		}
-		stratRefreshWeatherDataTimeOut(refreshTimeInput.val() * 1000);
+		//statRefreshWeatherDataTimeOut(refreshTimeInput.val() * 1000);
 	})
 	.fail(function(error) {
 		console.log(error);
 		console.log(error.status);
 		console.log(error.statusText);
 		if (myUrl == 'https://www.torinometeo.org/api/v1/realtime/data/') {
-			getDataFromApi('https://jsonblob.com/api/jsonBlob/8f73f269-d924-11e7-a24a-991ece7b105b');
+			getDataFromApi('https://jsonblob.com/api/jsonBlob/8f73f269-d924-11e7-a24a-991ece7b105b', "jsonblob");
 		} else {
 			$('#loading').fadeIn();
 			$('#loading-text').html('Errore nella richiesta dei dati.');
@@ -286,7 +286,7 @@ function populateSlideshow(slideshowContainer, singleWeatherData) {
 	$(slidesDescription[0]).html(getStationClimate(singleWeatherData));
 	$(slidesDescription[1]).html(getSationDescription(singleWeatherData));
 	$(slidesDescription[2]).html(getMeteogrammerDescription(singleWeatherData));
-	applySlideshowAnimation(0, slideshowContainer, 5000);
+	applySlideshowAnimation(0, slideshowContainer);
 }
 
 /**
@@ -510,14 +510,23 @@ function formatTemp(weatherTemp, pTemp){
 /**
  * [getLastUpdate function to print the last date of the page's refresh]
  */
-function getLastUpdate(){
+function getLastUpdate(source){
 	var formatDate = new Date();
 	var date = $('p.lastUpdate')
-	date.html(formatDate.toLocaleString());
+	date.html("Refresh date: " + formatDate.toLocaleString() + "<br>" + getSourceWeatherData(source));
 	var divDate = $('div#divDate');
 	divDate.append(date);
 }
 
+function getSourceWeatherData(source) {
+	var sourceLink = "";
+	if (source === "torinometeo") {
+		sourceLink = "Data source: www.torinometeo.org";
+	}else {
+		sourceLink = "Data source: https://jsonblob.com"
+	}
+	return sourceLink;
+}
 
 //call the function that get the weather data
-getDataFromApi('https://www.torinometeo.org/api/v1/realtime/data/');
+getDataFromApi('https://www.torinometeo.org/api/v1/realtime/data/', "torinometeo");
