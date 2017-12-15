@@ -177,7 +177,7 @@ populateHistoricalBody function that populate with station data the historical b
 #### getHistoricalWeatherData
 getHistoricalWeatherData function that get the weather data
 **param [Object]** station: required station data
-**return [String]** all weather data
+**return [String]** string: all weather data
 ----
 
 ## Files
